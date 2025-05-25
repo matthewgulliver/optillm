@@ -728,11 +728,12 @@ def proxy_models():
         else:
             client = default_client
 
-        # Fetch models using the OpenAI client and return the raw response
+        # Fetch models using the OpenAI client
         models_response = client.models.list()
 
         logger.debug('Models retrieved successfully')
-        return models_response, 200
+        # THIS IS THE CRITICAL LINE:
+        return jsonify(models_response.model_dump()), 200
     except Exception as e:
         logger.error(f"Error fetching models: {str(e)}")
         return jsonify({"error": f"Error fetching models: {str(e)}"}), 500
